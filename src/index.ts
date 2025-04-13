@@ -26,8 +26,13 @@ server.tool(
       .string()
       .optional()
       .describe("Optional library name to search for and rerank results based on."),
+    maxResults: z
+      .number()
+      .min(1)
+      .default(10)
+      .describe("Maximum number of results to return (default: 10)."),
   },
-  async ({ libraryName }) => {
+  async ({ libraryName, maxResults = 10 }) => {
     const projects = await fetchProjects();
 
     if (!projects) {
@@ -60,7 +65,10 @@ server.tool(
       ? rerankProjects(finalizedProjects, libraryName)
       : finalizedProjects;
 
-    const projectsText = formatProjectsList(rankedProjects);
+    // Limit the number of results
+    const limitedProjects = rankedProjects.slice(0, maxResults);
+
+    const projectsText = formatProjectsList(limitedProjects, rankedProjects.length);
 
     return {
       content: [

@@ -14,13 +14,13 @@ export function formatProject(project: Project): string {
  * @param projects Projects to format
  * @returns Formatted projects string
  */
-export function formatProjectsList(projects: Project[]): string {
+export function formatProjectsList(projects: Project[], totalProjects?: number): string {
   const formattedProjects = projects.map(formatProject);
-  return (
-    formattedProjects.length +
-    " available documentation libraries:\n\n" +
-    formattedProjects.join("\n")
-  );
+  const prefix =
+    totalProjects && totalProjects > projects.length
+      ? `Showing ${projects.length} of ${totalProjects} documentation libraries:\n\n`
+      : `${projects.length} documentation libraries:\n\n`;
+  return prefix + formattedProjects.join("\n");
 }
 
 /**
