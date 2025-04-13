@@ -29,6 +29,7 @@
   "homepage": "https://github.com/upstash/context7-mcp#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.8.0",
+    "fuse.js": "^7.1.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
